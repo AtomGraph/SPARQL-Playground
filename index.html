@@ -15,29 +15,29 @@
 		</style>
 	</head>
 	<body>
-		<div class="container-fluid">
-		  <div class="row align-items-start">
-			<div class="col">
-				<ul class="nav">
-				  <li class="nav-item">
-					<a class="nav-link" href="https://github.com/AtomGraph">AtomGraph</a>
-				  </li>
-				  <li class="nav-item">
-					<a class="nav-link" href="https://www.w3.org/TR/sparql11-query/">SPARQL 1.1 Query Language</a>
-				  </li>
-				  <li class="nav-item">
-					<a class="nav-link" href="https://github.com/AtomGraph/SPARQL-Playground">Code</a>
-				  </li>
-				</ul>
+		<nav class="navbar navbar-light bg-light">
+			<div class="container-fluid">
+			  <!-- <div class="row align-items-start"> -->
+				<div class="col">
+					<a class="navbar-brand" href="#">SPARQL Playground</a>
+					<ul class="nav">
+					  <li class="nav-item">
+						<a class="nav-link" href="https://github.com/AtomGraph">AtomGraph</a>
+					  </li>
+					  <li class="nav-item">
+						<a class="nav-link" href="https://www.w3.org/TR/sparql11-query/">SPARQL 1.1 Query Language</a>
+					  </li>
+					  <li class="nav-item">
+						<a class="nav-link" href="https://github.com/AtomGraph/SPARQL-Playground">Code</a>
+					  </li>
+					</ul>
+				</div>
+				<div class="col">
+					<button class="btn btn-primary" type="button" id="exec-query">Query</button>
+				</div>
+			  <!-- </div> -->
 			</div>
-			<div class="col">
-				<button class="btn btn-primary" type="button" id="exec-query">Query</button>
-			</div>
-		  </div>
-		</div>
-		<div class="container-fluid">
-			<h1>SPARQL Playground</h1>
-		</div>
+		</nav>
 		<form>
 			<div class="container-fluid">
 			  <div class="row align-items-start">
