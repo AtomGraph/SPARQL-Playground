@@ -10,29 +10,15 @@
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto">
 		<style type="text/css">
 			body { font-family: "Roboto", sans-serif; }
-			textarea { font-family: monospace; width: 100%; }
+			textarea, #results table { font-family: monospace; width: 100%; }
 		</style>
 	</head>
 	<body>
-		<nav class="navbar navbar-light bg-light">
+		<nav class="navbar sticky-top navbar-light bg-light">
 			<div class="container-fluid">
 			  <!-- <div class="row align-items-start"> -->
 				<div class="col">
 					<a class="navbar-brand" href="#">SPARQL Playground</a>
-					<ul class="nav">
-					  <li class="nav-item">
-						<a class="nav-link" href="https://github.com/AtomGraph">AtomGraph</a>
-					  </li>
-					  <li class="nav-item">
-						<a class="nav-link" href="https://www.w3.org/TR/sparql11-query/">SPARQL 1.1 Query Language</a>
-					  </li>
-					  <li class="nav-item">
-						<a class="nav-link" href="https://comunica.dev/">Comunica</a>
-					  </li>
-					  <li class="nav-item">
-						<a class="nav-link" href="https://github.com/AtomGraph/SPARQL-Playground">Code</a>
-					  </li>
-					</ul>
 				</div>
 				<div class="col">
 					<button class="btn btn-primary" type="button" id="exec-query">Query</button>
@@ -45,9 +31,35 @@
 			  <div class="row align-items-start">
 				<div class="col">
 					<fieldset>
-						<legend>RDF input</legend>
-						<textarea id="rdf-input" rows="15">&lt;ex:s&gt; &lt;ex:p&gt; &lt;ex:o&gt;.
-&lt;ex:s&gt; &lt;ex:p2&gt; &lt;ex:o2&gt;.</textarea>
+						<legend>RDF input
+							<select id="rdf-input-media-type">
+								<option value="text/turtle">Turtle</option>
+								<option value="application/trig">TriG</option>
+								<option value="application/n-triples">N-Triples</option>
+								<option value="application/n-quads">N-Quads</option>
+								<option value="application/ld+json">JSON-LD</option>
+								<option value="application/rdf+xml">RDF/XML</option>
+							</select>
+						</legend>
+						<textarea id="rdf-input" rows="15">BASE   &lt;http://example.org/&gt;
+PREFIX foaf: &lt;http://xmlns.com/foaf/0.1/&gt;
+PREFIX xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt;
+PREFIX schema: &lt;http://schema.org/&gt;
+PREFIX dcterms: &lt;http://purl.org/dc/terms/&gt;
+PREFIX wd: &lt;http://www.wikidata.org/entity/&gt;
+
+&lt;bob#me&gt;
+    a foaf:Person ;
+    foaf:knows &lt;alice#me&gt; ;
+    schema:birthDate "1990-07-04"^^xsd:date ;
+    foaf:topic_interest wd:Q12418 .
+
+wd:Q12418
+    dcterms:title "Mona Lisa" ;
+    dcterms:creator &lt;http://dbpedia.org/resource/Leonardo_da_Vinci&gt; .
+
+&lt;http://data.europeana.eu/item/04802/243FA8618938F4117025F17A8B813C5F9AA4D619&gt;
+    dcterms:subject wd:Q12418 .</textarea>
 					</fieldset>
 				</div>
 				<div class="col">
@@ -66,18 +78,52 @@ LIMIT 100</textarea>
 			  <div class="row align-items-start">
 				<div class="col">
 					<fieldset>
-						<legend>Output</legend>
+						<legend>Output
+							<select id="output-media-type">
+								<optgroup label="SPARQL results">
+									<option value="application/sparql-results+json">JSON</option>
+									<option value="application/sparql-results+xml">XML</option>
+									<!-- <option value="application/sparql-results+csv">CSV</option> -->
+								</optgroup>
+								<optgroup label="RDF results">
+									<option value="text/turtle">Turtle</option>
+									<option value="application/trig">TriG</option>
+									<option value="application/n-triples">N-Triples</option>
+									<option value="application/n-quads">N-Quads</option>
+									<option value="application/ld+json">JSON-LD</option>
+									<!-- <option value="application/rdf+xml">RDF/XML</option> -->
+								</optgroup>
+							</select>
+						</legend>
 						<textarea id="output" rows="15"></textarea>
 					</fieldset>
 				</div>
 				<div class="col">
 					<fieldset>
 						<legend>Results</legend>
-						<textarea id="results" rows="15"></textarea>
+						<div id="results"></div>
 					</fieldset>
 				</div>
 			  </div>
 			</div>
 		</form>
+
+		<ul class="nav justify-content-center">
+		  <li class="nav-item">
+			<a class="nav-link" href="https://github.com/AtomGraph" target="_blank">AtomGraph</a>
+		  </li>
+		  <li class="nav-item">
+			<a class="nav-link" href="https://www.w3.org/TR/rdf11-primer/" target="_blank">RDF 1.1 Primer</a>
+		  </li>
+		  <li class="nav-item">
+			<a class="nav-link" href="https://www.w3.org/TR/sparql11-overview/" target="_blank">SPARQL 1.1 Overview</a>
+		  </li>
+		  <li class="nav-item">
+			<a class="nav-link" href="https://comunica.dev/" target="_blank">Comunica</a>
+		  </li>
+		  <li class="nav-item">
+			<a class="nav-link" href="https://github.com/AtomGraph/SPARQL-Playground" target="_blank">Code</a>
+		  </li>
+		</ul>
 	</body>
 </html>
