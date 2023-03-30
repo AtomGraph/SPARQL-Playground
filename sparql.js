@@ -2,7 +2,7 @@ window.onload = function() {
 	document.getElementById("exec-query").addEventListener("click", query);
 }
 
-function query() {
+async function query() {
 	const baseURI = window.location.href.split('#')[0];
 	const queryString = document.getElementById("query-string").value.trim();
 	console.log("Query: " + queryString);
@@ -18,26 +18,35 @@ function query() {
 
 	if (queryString.startsWith("DESCRIBE") || queryString.startsWith("CONSTRUCT"))
 	{
-		const writer = new N3.Writer({ format: 'application/trig' });
-		new Comunica.QueryEngine().queryQuads(queryString, { "sources": sources }).then(function (quadStream) {
-			quadStream.on('data', (quad) => {
-				writer.addQuad(quad);
-			});
-			quadStream.on('end', function() {
-				writer.end((error, result) => {
-					if (results != null) document.getElementById("output").value = result;
-					if (error != null) document.getElementById("results").value = error;
-				});
-			});
-		});
+		const engine = new Comunica.QueryEngine();
+		const result = await engine.query(queryString, { "sources": sources });
+		console.log(result);
+		const { data } = await engine.resultToString(result, "text/turtle");
+		const resultString = await streamToString(data);
+		document.getElementById("output").value = resultString;
 	}
 	else // SELECT
 	{
-		new Comunica.QueryEngine().queryBindings(queryString, { "sources": sources }).then(function (bindingsStream) {
-			bindingsStream.on('data', function (data) {
-			  console.log(data.get('s').value + ' ' + data.get('p').value + ' ' + data.get('o').value);
-			});
-		});
+		const engine = new Comunica.QueryEngine();
+		const result = await engine.query(queryString, { "sources": sources });
+		console.log(result);
+		const { data } = await engine.resultToString(result, "application/sparql-results+xml");
+		const resultString = await streamToString(data);
+		document.getElementById("output").value = resultString;
 	}
 	// TO-DO: ASK https://comunica.dev/docs/query/getting_started/query_app/#6--executing-sparql-ask-queries
+
+}
+
+function streamToString(stream) {
+  return new Promise((resolve, reject) => {
+	let result = ''
+	stream.on('data', (data) => {
+	  result += data
+	})
+	stream.on('end', () => {
+	  resolve(result)
+	})
+	stream.on('error', reject)
+  })
 }
