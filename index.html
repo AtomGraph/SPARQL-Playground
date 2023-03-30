@@ -11,25 +11,24 @@
 		<style type="text/css">
 			body { font-family: "Roboto", sans-serif; }
 			textarea, #results table { font-family: monospace; width: 100%; }
+			#results { overflow-x: auto; }
 		</style>
 	</head>
 	<body>
 		<nav class="navbar sticky-top navbar-light bg-light">
 			<div class="container-fluid">
-			  <!-- <div class="row align-items-start"> -->
-				<div class="col">
+				<div class="col-6">
 					<a class="navbar-brand" href="#">SPARQL Playground</a>
 				</div>
-				<div class="col">
+				<div class="col-6">
 					<button class="btn btn-primary" type="button" id="exec-query">Query</button>
 				</div>
-			  <!-- </div> -->
 			</div>
 		</nav>
 		<form>
 			<div class="container-fluid">
 			  <div class="row align-items-start">
-				<div class="col">
+				<div class="col-6">
 					<fieldset>
 						<legend>RDF input
 							<select id="rdf-input-media-type">
@@ -62,7 +61,7 @@ wd:Q12418
     dcterms:subject wd:Q12418 .</textarea>
 					</fieldset>
 				</div>
-				<div class="col">
+				<div class="col-6">
 				<fieldset>
 					<legend>SPARQL query</legend>
 					<textarea id="query-string" rows="15">SELECT *
@@ -76,7 +75,7 @@ LIMIT 100</textarea>
 			</div>
 			<div class="container-fluid">
 			  <div class="row align-items-start">
-				<div class="col">
+				<div class="col-6">
 					<fieldset>
 						<legend>Output
 							<select id="output-media-type">
@@ -98,7 +97,7 @@ LIMIT 100</textarea>
 						<textarea id="output" rows="15"></textarea>
 					</fieldset>
 				</div>
-				<div class="col">
+				<div class="col-6">
 					<fieldset>
 						<legend>Results</legend>
 						<div id="results"></div>
