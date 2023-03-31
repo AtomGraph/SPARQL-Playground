@@ -32,7 +32,7 @@ async function query() {
             outputMediaTypeSelect.querySelector("optgroup[value = 'quads']").disabled = false;
             outputMediaTypeSelect.querySelector("optgroup[value = 'bindings']").disabled = true;
         }
-        if (result.resultType == "bindings") {
+        if (result.resultType == "bindings" || result.resultType == "boolean") {
             if (!BINDINGS_MEDIA_TYPES.includes(outputMediaTypeSelect.value)) outputMediaTypeSelect.value = BINDINGS_MEDIA_TYPES[0];
             outputMediaTypeSelect.querySelector("optgroup[value = 'bindings']").disabled = false;
             outputMediaTypeSelect.querySelector("optgroup[value = 'quads']").disabled = true;
@@ -66,6 +66,18 @@ async function query() {
             const resultJson = JSON.parse(jsonString);
 
             renderSPARQLJSON(resultJson, resultsDiv);
+        }
+        if (result.resultType == "boolean") {
+            const {
+                data
+            } = await engine.resultToString(result, "application/sparql-results+json");
+            const jsonString = await streamToString(data);
+            const resultJson = JSON.parse(jsonString);
+
+            const booleanPre = document.createElement("pre");
+            const booleanText = document.createTextNode(resultJson["boolean"]);
+            booleanPre.appendChild(booleanText);
+            resultsDiv.replaceChildren(booleanPre);
         }
     } catch (error) {
         outputTextarea.value = "";
