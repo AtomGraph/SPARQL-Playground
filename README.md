@@ -1,5 +1,4 @@
 # SPARQL-Playground
-A client-side SPARQL playground
 
 **Available online on [https://atomgraph.github.io/SPARQL-Playground/](https://atomgraph.github.io/SPARQL-Playground/)**
 
