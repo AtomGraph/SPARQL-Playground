@@ -128,9 +128,10 @@ function renderJSONLD(resultJson, resultsDiv) {
                 const tripleTR = document.createElement("tr");
                 resultsTBody.appendChild(tripleTR);
 
+                const subjectString = (resource["@id"].startsWith("_:")) ? resource["@id"] : "<" + resource["@id"] + ">";
                 const subjectTD = document.createElement("td");
                 tripleTR.appendChild(subjectTD);
-                const subjectText = document.createTextNode("<" + resource["@id"] + ">"); // TO-DO: _:bnode
+                const subjectText = document.createTextNode(subjectString);
                 subjectTD.appendChild(subjectText);
 
                 const propertyTD = document.createElement("td");
@@ -141,7 +142,7 @@ function renderJSONLD(resultJson, resultsDiv) {
                 const objectTD = document.createElement("td");
                 tripleTR.appendChild(objectTD);
 
-                var objectString = (valueObj["@value"]) ? "\"" + valueObj["@value"] + "\"" : "<" + valueObj["@id"] + ">"; // TO-DO: _:bnode
+                var objectString = (valueObj["@value"]) ? "\"" + valueObj["@value"] + "\"" : (valueObj["@id"].startsWith("_:")) ? valueObj["@id"] : "<" + valueObj["@id"] + ">";
                 if (valueObj["@type"]) objectString += "^^" + "<" + valueObj["@type"] + ">";
                 if (valueObj["@language"]) objectString += "@" + valueObj["@language"];
 
@@ -155,9 +156,10 @@ function renderJSONLD(resultJson, resultsDiv) {
                 const tripleTR = document.createElement("tr");
                 resultsTBody.appendChild(tripleTR);
 
+                const subjectString = (resource["@id"].startsWith("_:")) ? resource["@id"] : "<" + resource["@id"] + ">";
                 const subjectTD = document.createElement("td");
                 tripleTR.appendChild(subjectTD);
-                const subjectText = document.createTextNode("<" + resource["@id"] + ">"); // TO-DO: _:bnode
+                const subjectText = document.createTextNode(subjectString);
                 subjectTD.appendChild(subjectText);
 
                 const propertyTD = document.createElement("td");
@@ -169,9 +171,9 @@ function renderJSONLD(resultJson, resultsDiv) {
                 tripleTR.appendChild(objectTD);
 
                 var objectString;
-                if (typeof typeObj === 'string') objectString = "<" + typeObj + ">";
+                if (typeof typeObj === 'string') objectString = (typeObj.startsWith("_:")) ? typeObj : "<" + typeObj + ">";
                 else {
-                    objectString = (typeObj["@value"]) ? "\"" + typeObj["@value"] + "\"" : "<" + typeObj["@id"] + ">"; // TO-DO: _:bnode
+                    objectString = (typeObj["@value"]) ? "\"" + typeObj["@value"] + "\"" : (typeObj["@id"].startsWith("_:")) ? typeObj["@id"] : "<" + typeObj["@id"] + ">";
                     if (typeObj["@type"]) objectString += "^^" + "<" + typeObj["@type"] + ">";
                     if (typeObj["@language"]) objectString += "@" + typeObj["@language"];
                 }
@@ -212,7 +214,10 @@ function renderSPARQLJSON(resultJson, resultsDiv) {
             resultsBindingTR.appendChild(resultsBindingTD);
 
             const value = binding[variable].value;
-            var resultsBindingString = (binding[variable].type == "literal") ? "\"" + value + "\"" : "<" + value + ">";
+
+            console.log("Value: " + value + " Type: " + binding[variable].type);
+
+            var resultsBindingString = (binding[variable].type == "literal") ? "\"" + value + "\"" : (binding[variable].type == "bnode") ? "_:" + value : "<" + value + ">";
             if (binding[variable].datatype) resultsBindingString += "^^" + "<" + binding[variable].datatype + ">";
             if (binding[variable]["xml:lang"]) resultsBindingString += "@" + binding[variable]["xml:lang"];
             const resultsBindingText = document.createTextNode(resultsBindingString);
