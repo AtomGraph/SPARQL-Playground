@@ -214,9 +214,6 @@ function renderSPARQLJSON(resultJson, resultsDiv) {
             resultsBindingTR.appendChild(resultsBindingTD);
 
             const value = binding[variable].value;
-
-            console.log("Value: " + value + " Type: " + binding[variable].type);
-
             var resultsBindingString = (binding[variable].type == "literal") ? "\"" + value + "\"" : (binding[variable].type == "bnode") ? "_:" + value : "<" + value + ">";
             if (binding[variable].datatype) resultsBindingString += "^^" + "<" + binding[variable].datatype + ">";
             if (binding[variable]["xml:lang"]) resultsBindingString += "@" + binding[variable]["xml:lang"];
