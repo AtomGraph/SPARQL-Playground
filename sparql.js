@@ -213,10 +213,29 @@ function renderSPARQLJSON(resultJson, resultsDiv) {
             const resultsBindingTD = document.createElement("td");
             resultsBindingTR.appendChild(resultsBindingTD);
 
-            const value = binding[variable].value;
-            var resultsBindingString = (binding[variable].type == "literal") ? "\"" + value + "\"" : (binding[variable].type == "bnode") ? "_:" + value : "<" + value + ">";
-            if (binding[variable].datatype) resultsBindingString += "^^" + "<" + binding[variable].datatype + ">";
-            if (binding[variable]["xml:lang"]) resultsBindingString += "@" + binding[variable]["xml:lang"];
+            let resultsBindingString = "-"; // default display value for unbound variables
+            const variableBinding = binding[variable];
+            if (variableBinding) {
+                const value = variableBinding.value;
+                const datatype = variableBinding.datatype;
+                const lang = variableBinding["xml:lang"];
+                const type = variableBinding.type;
+                switch (type) {
+                    case "literal":
+                        resultsBindingString = `"${value}"`;
+                        if (datatype) resultsBindingString += `^^<${datatype}>`;
+                        if (lang) resultsBindingString += `@${lang}`;
+                        break;
+                    case "bnode":
+                        resultsBindingString = `_:${value}`;
+                        break;
+                    case "uri":
+                        resultsBindingString = `<${value}>`;
+                        break;
+                    default:
+                        console.error(`Encountered unknown type: ${type}`);
+                }
+            }
             const resultsBindingText = document.createTextNode(resultsBindingString);
             resultsBindingTD.appendChild(resultsBindingText);
         }
