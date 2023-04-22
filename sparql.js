@@ -213,9 +213,9 @@ function renderSPARQLJSON(resultJson, resultsDiv) {
             const resultsBindingTD = document.createElement("td");
             resultsBindingTR.appendChild(resultsBindingTD);
 
-            let resultsBindingString = "-"; // default display value for unbound variables
             const variableBinding = binding[variable];
             if (variableBinding) {
+                let resultsBindingString;
                 const value = variableBinding.value;
                 const datatype = variableBinding.datatype;
                 const lang = variableBinding["xml:lang"];
@@ -235,9 +235,9 @@ function renderSPARQLJSON(resultJson, resultsDiv) {
                     default:
                         console.error(`Encountered unknown type: ${type}`);
                 }
+                const resultsBindingText = document.createTextNode(resultsBindingString);
+                resultsBindingTD.appendChild(resultsBindingText);
             }
-            const resultsBindingText = document.createTextNode(resultsBindingString);
-            resultsBindingTD.appendChild(resultsBindingText);
         }
     }
 }
