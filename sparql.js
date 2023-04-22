@@ -195,7 +195,7 @@ function renderSPARQLJSON(resultJson, resultsDiv) {
     const resultsVarTR = document.createElement("tr");
     resultsTHead.appendChild(resultsVarTR);
 
-    for (var variable of resultJson.head.vars) {
+    for (const variable of resultJson.head.vars) {
         const resultsVarTH = document.createElement("th");
         resultsVarTR.appendChild(resultsVarTH);
         const resultsVarText = document.createTextNode(variable);
@@ -205,11 +205,11 @@ function renderSPARQLJSON(resultJson, resultsDiv) {
     const resultsTBody = document.createElement("tbody");
     resultsTable.appendChild(resultsTBody);
 
-    for (var binding of resultJson.results.bindings) {
+    for (const binding of resultJson.results.bindings) {
         const resultsBindingTR = document.createElement("tr");
         resultsTBody.appendChild(resultsBindingTR);
 
-        for (var variable of resultJson.head.vars) {
+        for (const variable of resultJson.head.vars) {
             const resultsBindingTD = document.createElement("td");
             resultsBindingTR.appendChild(resultsBindingTD);
 
